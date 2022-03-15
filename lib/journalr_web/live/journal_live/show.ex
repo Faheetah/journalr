@@ -5,7 +5,7 @@ defmodule JournalrWeb.JournalLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :journals, list_journals())}
   end
 
   @impl true
@@ -18,4 +18,8 @@ defmodule JournalrWeb.JournalLive.Show do
 
   defp page_title(:show), do: "Show Journal"
   defp page_title(:edit), do: "Edit Journal"
+
+  defp list_journals do
+    Journals.list_journals()
+  end
 end

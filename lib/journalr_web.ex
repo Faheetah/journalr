@@ -45,7 +45,8 @@ defmodule JournalrWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {JournalrWeb.LayoutView, "live.html"}
+        layout: {JournalrWeb.LayoutView, "live.html"},
+        container: {:div, class: "w-full"}
 
       unquote(view_helpers())
     end
