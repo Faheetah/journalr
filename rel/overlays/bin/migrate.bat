@@ -1,0 +1,1 @@
+call "%~dp0\journalr" eval Journalr.Release.migrate
