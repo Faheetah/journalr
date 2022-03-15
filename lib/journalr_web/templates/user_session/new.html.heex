@@ -1,7 +1,7 @@
-<div class="m-auto items-center px-8 py-4 border">
+<div class="m-auto items-center px-8 py-4 w-96">
   <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
     <div class="space-y-4">
-      <div class="w-full text-xl text-center">Log in to pick back up where you left off</div>
+      <div class="w-full text-xl text-center">Log in to start writing</div>
 
       <%= if @error_message do %>
         <div class="p-2 font-bold text-center bg-red-100 text-red-600">
