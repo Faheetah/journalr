@@ -1,19 +1,13 @@
 # Journalr
 
-To start your Phoenix server:
+## Architecture
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+### Accounts
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+`User` defines a user that can access the system
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Journals
 
-## Learn more
+`Journal` a collection of pages, can be public or private
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+`Page` a single page in a journal
