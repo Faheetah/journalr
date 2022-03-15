@@ -21,7 +21,7 @@ defmodule Journalr.JournalsTest do
     end
 
     test "create_journal/1 with valid data creates a journal" do
-      valid_attrs = %{public: true}
+      valid_attrs = %{public: true, name: unique_journal_name()}
 
       assert {:ok, %Journal{} = journal} = Journals.create_journal(valid_attrs)
       assert journal.public == true

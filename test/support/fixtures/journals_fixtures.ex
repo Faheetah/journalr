@@ -4,6 +4,8 @@ defmodule Journalr.JournalsFixtures do
   entities via the `Journalr.Journals` context.
   """
 
+  def unique_journal_name, do: "journal#{System.unique_integer()}"
+
   @doc """
   Generate a journal.
   """
@@ -11,7 +13,8 @@ defmodule Journalr.JournalsFixtures do
     {:ok, journal} =
       attrs
       |> Enum.into(%{
-        public: true
+        public: true,
+        name: unique_journal_name()
       })
       |> Journalr.Journals.create_journal()
 
