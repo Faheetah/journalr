@@ -4,8 +4,8 @@ defmodule Journalr.AccountsFixtures do
   entities via the `Journalr.Accounts` context.
   """
 
-  def unique_username, do: "user#{System.unique_integer()}"
-  def unique_user_email, do: "user#{System.unique_integer()}@example.com"
+  def unique_username, do: "user#{abs(System.unique_integer)}"
+  def unique_user_email, do: "user#{abs(System.unique_integer)}@example.com"
   def valid_user_password, do: "sixteen letters!"
 
   def valid_user_attributes(attrs \\ %{}) do

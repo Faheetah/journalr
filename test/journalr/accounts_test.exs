@@ -101,16 +101,18 @@ defmodule Journalr.AccountsTest do
     end
 
     test "allows fields to be set" do
+      username = unique_username()
       email = unique_user_email()
       password = valid_user_password()
 
       changeset =
         Accounts.change_user_registration(
           %User{},
-          valid_user_attributes(email: email, password: password)
+          valid_user_attributes(username: username, email: email, password: password)
         )
 
       assert changeset.valid?
+      assert get_change(changeset, :username) == username
       assert get_change(changeset, :email) == email
       assert get_change(changeset, :password) == password
       assert is_nil(get_change(changeset, :hashed_password))

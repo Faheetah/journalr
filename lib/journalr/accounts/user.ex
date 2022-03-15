@@ -37,6 +37,7 @@ defmodule Journalr.Accounts.User do
   def registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:username, :email, :password])
+    |> validate_format(:username, ~r/^[a-zA-Z0-9_]+$/, message: "Usernames must be a combination of letters, numbers, and underscore only")
     |> validate_email()
     |> validate_password(opts)
   end
