@@ -1,10 +1,10 @@
-<ul class="border">
-<%= if @current_user do %>
-  <li><%= @current_user.username %></li>
-  <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
-  <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
-<% else %>
-  <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
-  <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
-<% end %>
-</ul>
+<div class="p-4 flex w-3/4">
+  <div class="flex-1"></div>
+
+  <div>
+  <%= if @current_user do %>
+    <span><%= link @current_user.username, to: Routes.user_settings_path(@conn, :edit) %></span>
+    <span><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></span>
+  <% end %>
+  </div>
+</div>

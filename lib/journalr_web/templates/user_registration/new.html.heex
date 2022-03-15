@@ -1,30 +1,22 @@
-<h1>Register</h1>
+<div class="m-auto items-center px-8 py-4 border w-96">
+  <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
+    <div class="space-y-4">
+      <div class="text-xl w-full text-center">Join now to get start writing</div>
 
-<.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+      <%= text_input f, :username, required: true, placeholder: "Username", class: "w-full p-2 border" %>
+      <%= error_tag f, :username %>
+
+      <%= text_input f, :email, required: true, placeholder: "Email Address", class: "w-full p-2 border" %>
+      <%= error_tag f, :email %>
+
+      <%= password_input f, :password, required: true, placeholder: "Password", class: "w-full p-2 border" %>
+      <%= error_tag f, :password %>
+
+      <%= submit "Create an account", class: "w-full p-2 border bg-neutral-100" %>
+
+      <div class="text-center text-sm">
+        <%= link "Or log in here", to: Routes.user_session_path(@conn, :new) %>
+      </div>
     </div>
-  <% end %>
-
-  <%= label f, :username %>
-  <%= text_input f, :username, required: true %>
-  <%= error_tag f, :username %>
-
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-  <%= error_tag f, :email %>
-
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
-
-  <div>
-    <%= submit "Register" %>
-  </div>
-</.form>
-
-<p>
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %> |
-  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
-</p>
+  </.form>
+</div>

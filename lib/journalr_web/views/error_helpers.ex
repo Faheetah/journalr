@@ -10,8 +10,8 @@ defmodule JournalrWeb.ErrorHelpers do
   """
   def error_tag(form, field) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      content_tag(:span, translate_error(error),
-        class: "invalid-feedback",
+      content_tag(:div, translate_error(error),
+      class: "font-bold text-sm mt-1 text-center text-red-600",
         phx_feedback_for: input_name(form, field)
       )
     end)
@@ -43,5 +43,6 @@ defmodule JournalrWeb.ErrorHelpers do
     else
       Gettext.dgettext(JournalrWeb.Gettext, "errors", msg, opts)
     end
+    |> String.capitalize
   end
 end

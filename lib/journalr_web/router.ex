@@ -55,11 +55,11 @@ defmodule JournalrWeb.Router do
   scope "/", JournalrWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
+    get "/register", UserRegistrationController, :new
     post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
+    get "/login", UserSessionController, :new
+    post "/users/login", UserSessionController, :create
+    get "/reset_password", UserResetPasswordController, :new
     post "/users/reset_password", UserResetPasswordController, :create
     get "/users/reset_password/:token", UserResetPasswordController, :edit
     put "/users/reset_password/:token", UserResetPasswordController, :update
@@ -67,6 +67,8 @@ defmodule JournalrWeb.Router do
 
   scope "/", JournalrWeb do
     pipe_through [:browser, :require_authenticated_user]
+
+    live "/", JournalLive.Index, :index
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
@@ -83,8 +85,7 @@ defmodule JournalrWeb.Router do
   scope "/", JournalrWeb do
     pipe_through [:browser]
 
-    get "/", UserRegistrationController, :new
-    delete "/users/log_out", UserSessionController, :delete
+    delete "/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit

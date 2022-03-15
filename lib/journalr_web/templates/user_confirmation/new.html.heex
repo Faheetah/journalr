@@ -1,15 +1,18 @@
-<h1>Resend confirmation instructions</h1>
+<div class="m-auto items-center px-8 py-4 border w-96">
+  <.form let={f} for={:user} action={Routes.user_confirmation_path(@conn, :create)}>
+    <div class="space-y-4">
+      <div class="text-xl w-full text-center">Resend confirmation instructiongs</div>
 
-<.form let={f} for={:user} action={Routes.user_confirmation_path(@conn, :create)}>
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+      <%= email_input f, :email, required: true, placeholder: "Email", class: "w-full p-2 border" %>
 
-  <div>
-    <%= submit "Resend confirmation instructions" %>
-  </div>
-</.form>
+      <%= submit "Resend confirmation instructions", class: "w-full p-2 border bg-neutral-100" %>
 
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>
+      <div class="text-center text-sm space-x-4">
+        <%= link "Register", to: Routes.user_registration_path(@conn, :new) %>
+        <span>|</span>
+        <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
+      </div>
+    </div>
+  </.form>
+</div>
+
