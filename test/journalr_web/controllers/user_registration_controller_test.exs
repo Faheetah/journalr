@@ -3,13 +3,12 @@ defmodule JournalrWeb.UserRegistrationControllerTest do
 
   import Journalr.AccountsFixtures
 
-  describe "GET /users/register" do
+  describe "GET /register" do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
-      assert response =~ "Log in</a>"
-      assert response =~ "Register</a>"
+      assert response =~ ">Create an account<"
+      assert response =~ "Or log in here</a>"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -18,14 +17,15 @@ defmodule JournalrWeb.UserRegistrationControllerTest do
     end
   end
 
-  describe "POST /users/register" do
+  describe "POST /register" do
     @tag :capture_log
     test "creates account and logs the user in", %{conn: conn} do
+      username = unique_username()
       email = unique_user_email()
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+          "user" => valid_user_attributes(username: username, email: email)
         })
 
       assert get_session(conn, :user_token)
@@ -34,9 +34,8 @@ defmodule JournalrWeb.UserRegistrationControllerTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ email
-      assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      assert response =~ username
+      assert response =~ ">Log out</a>"
     end
 
     test "render errors for invalid data", %{conn: conn} do
@@ -46,9 +45,9 @@ defmodule JournalrWeb.UserRegistrationControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
-      assert response =~ "must have the @ sign and no spaces"
-      assert response =~ "should be at least 12 character"
+      assert response =~ ">Create an account</"
+      assert response =~ "Must have the @ sign and no spaces"
+      assert response =~ "Should be at least 16 character"
     end
   end
 end

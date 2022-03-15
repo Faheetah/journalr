@@ -9,11 +9,11 @@ defmodule JournalrWeb.UserResetPasswordControllerTest do
     %{user: user_fixture()}
   end
 
-  describe "GET /users/reset_password" do
+  describe "GET /reset_password" do
     test "renders the reset password page", %{conn: conn} do
       conn = get(conn, Routes.user_reset_password_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Forgot your password?</h1>"
+      assert response =~ ">Forgot your password?<"
     end
   end
 
@@ -54,7 +54,7 @@ defmodule JournalrWeb.UserResetPasswordControllerTest do
 
     test "renders reset password", %{conn: conn, token: token} do
       conn = get(conn, Routes.user_reset_password_path(conn, :edit, token))
-      assert html_response(conn, 200) =~ "<h1>Reset password</h1>"
+      assert html_response(conn, 200) =~ ">Reset password<"
     end
 
     test "does not render reset password with invalid token", %{conn: conn} do
@@ -99,9 +99,9 @@ defmodule JournalrWeb.UserResetPasswordControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Reset password</h1>"
-      assert response =~ "should be at least 12 character(s)"
-      assert response =~ "does not match password"
+      assert response =~ ">Reset password<"
+      assert response =~ "Should be at least 16 character(s)"
+      assert response =~ "Does not match password"
     end
 
     test "does not reset password with invalid token", %{conn: conn} do

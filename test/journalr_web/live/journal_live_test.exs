@@ -13,6 +13,7 @@ defmodule JournalrWeb.JournalLiveTest do
     %{journal: journal}
   end
 
+  @tag :skip
   describe "Index" do
     setup [:create_journal]
 
@@ -22,6 +23,7 @@ defmodule JournalrWeb.JournalLiveTest do
       assert html =~ "Listing Journals"
     end
 
+    @tag :skip
     test "saves new journal", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.journal_index_path(conn, :index))
 
@@ -43,6 +45,7 @@ defmodule JournalrWeb.JournalLiveTest do
       assert html =~ "Journal created successfully"
     end
 
+    @tag :skip
     test "updates journal in listing", %{conn: conn, journal: journal} do
       {:ok, index_live, _html} = live(conn, Routes.journal_index_path(conn, :index))
 
@@ -64,6 +67,7 @@ defmodule JournalrWeb.JournalLiveTest do
       assert html =~ "Journal updated successfully"
     end
 
+    @tag :skip
     test "deletes journal in listing", %{conn: conn, journal: journal} do
       {:ok, index_live, _html} = live(conn, Routes.journal_index_path(conn, :index))
 
@@ -72,15 +76,18 @@ defmodule JournalrWeb.JournalLiveTest do
     end
   end
 
+  @tag :skip
   describe "Show" do
     setup [:create_journal]
 
+    @tag :skip
     test "displays journal", %{conn: conn, journal: journal} do
       {:ok, _show_live, html} = live(conn, Routes.journal_show_path(conn, :show, journal))
 
       assert html =~ "Show Journal"
     end
 
+    @tag :skip
     test "updates journal within modal", %{conn: conn, journal: journal} do
       {:ok, show_live, _html} = live(conn, Routes.journal_show_path(conn, :show, journal))
 

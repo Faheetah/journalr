@@ -4,11 +4,13 @@ defmodule Journalr.AccountsFixtures do
   entities via the `Journalr.Accounts` context.
   """
 
+  def unique_username, do: "user#{System.unique_integer()}"
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
-  def valid_user_password, do: "hello world!"
+  def valid_user_password, do: "sixteen letters!"
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
+      username: unique_username(),
       email: unique_user_email(),
       password: valid_user_password()
     })

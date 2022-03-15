@@ -63,15 +63,15 @@ defmodule Journalr.AccountsTest do
 
       assert %{
                email: ["must have the @ sign and no spaces"],
-               password: ["should be at least 12 character(s)"]
+               password: ["should be at least 16 character(s)"]
              } = errors_on(changeset)
     end
 
     test "validates maximum values for email and password for security" do
-      too_long = String.duplicate("db", 100)
+      too_long = String.duplicate("db", 1000)
       {:error, changeset} = Accounts.register_user(%{email: too_long, password: too_long})
       assert "should be at most 160 character(s)" in errors_on(changeset).email
-      assert "should be at most 72 character(s)" in errors_on(changeset).password
+      assert "should be at most 256 character(s)" in errors_on(changeset).password
     end
 
     test "validates email uniqueness" do
@@ -267,18 +267,18 @@ defmodule Journalr.AccountsTest do
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 16 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
 
     test "validates maximum values for password for security", %{user: user} do
-      too_long = String.duplicate("db", 100)
+      too_long = String.duplicate("db", 1000)
 
       {:error, changeset} =
         Accounts.update_user_password(user, valid_user_password(), %{password: too_long})
 
-      assert "should be at most 72 character(s)" in errors_on(changeset).password
+      assert "should be at most 256 character(s)" in errors_on(changeset).password
     end
 
     test "validates current password", %{user: user} do
@@ -476,15 +476,15 @@ defmodule Journalr.AccountsTest do
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 16 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
 
     test "validates maximum values for password for security", %{user: user} do
-      too_long = String.duplicate("db", 100)
+      too_long = String.duplicate("db", 1000)
       {:error, changeset} = Accounts.reset_user_password(user, %{password: too_long})
-      assert "should be at most 72 character(s)" in errors_on(changeset).password
+      assert "should be at most 256 character(s)" in errors_on(changeset).password
     end
 
     test "updates the password", %{user: user} do
