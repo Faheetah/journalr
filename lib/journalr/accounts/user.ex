@@ -4,7 +4,10 @@ defmodule Journalr.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journalr.Journals.Journal
+
   schema "users" do
+    field :username, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
@@ -32,7 +35,7 @@ defmodule Journalr.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:username, :email, :password])
     |> validate_email()
     |> validate_password(opts)
   end
@@ -49,10 +52,7 @@ defmodule Journalr.Accounts.User do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 72)
-    # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
-    # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
+    |> validate_length(:password, min: Application.fetch_env!(:journalr, __MODULE__)[:min_password_length], max: 256)
     |> maybe_hash_password(opts)
   end
 

@@ -1,5 +1,8 @@
 import Config
 
+config :journalr, Journalr.Accounts.User,
+  min_password_length: 3
+
 # Configure your database
 config :journalr, Journalr.Repo,
   username: "postgres",

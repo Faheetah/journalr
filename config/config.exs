@@ -10,6 +10,9 @@ import Config
 config :journalr,
   ecto_repos: [Journalr.Repo]
 
+config :journalr, Journalr.Accounts.User,
+  min_password_length: 16
+
 # Configures the endpoint
 config :journalr, JournalrWeb.Endpoint,
   url: [host: "localhost"],
