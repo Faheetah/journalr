@@ -1,4 +1,6 @@
 defmodule Journalr.Accounts.UserNotifier do
+  @moduledoc false
+
   import Swoosh.Email
 
   alias Journalr.Mailer
