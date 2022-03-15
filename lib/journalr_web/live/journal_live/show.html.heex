@@ -1,0 +1,26 @@
+<h1>Show Journal</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.journal_show_path(@socket, :show, @journal)}>
+    <.live_component
+      module={JournalrWeb.JournalLive.FormComponent}
+      id={@journal.id}
+      title={@page_title}
+      action={@live_action}
+      journal={@journal}
+      return_to={Routes.journal_show_path(@socket, :show, @journal)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Public:</strong>
+    <%= @journal.public %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.journal_show_path(@socket, :edit, @journal), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.journal_index_path(@socket, :index) %></span>

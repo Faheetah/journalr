@@ -17,12 +17,6 @@ defmodule JournalrWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", JournalrWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", JournalrWeb do
   #   pipe_through :api
@@ -77,11 +71,19 @@ defmodule JournalrWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    live "/journals", JournalLive.Index, :index
+    live "/journals/new", JournalLive.Index, :new
+    live "/journals/:id/edit", JournalLive.Index, :edit
+
+    live "/journals/:id", JournalLive.Show, :show
+    live "/journals/:id/show/edit", JournalLive.Show, :edit
   end
 
   scope "/", JournalrWeb do
     pipe_through [:browser]
 
+    get "/", UserRegistrationController, :new
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
