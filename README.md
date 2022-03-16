@@ -13,3 +13,12 @@ The default journal is the users' "My Journal" which is a generic journal. Users
 `Journal` a collection of pages, can be public or private
 
 `Page` a single page in a journal
+
+## Deploy
+
+rm -rf _build/prod/
+MIX_ENV=prod mix phx.digest.clean --all
+MIX_ENV=prod mix assets.deploy
+MIX_ENV=prod mix release --overwrite
+rsync -av _build/prod/rel/journalr/ SERVER:PATH
+ssh SERVER 'sudo systemctl restart journalr' or whatever matching service is
