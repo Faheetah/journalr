@@ -4,6 +4,8 @@ defmodule JournalrWeb.LiveHelpers do
   import Phoenix.LiveView
   import Phoenix.LiveView.Helpers
 
+  alias Phoenix.HTML.Tag
+
   alias Phoenix.LiveView.JS
 
   @doc """
@@ -82,4 +84,11 @@ defmodule JournalrWeb.LiveHelpers do
   defp inflex(23), do: "23rd"
   defp inflex(31), do: "31st"
   defp inflex(n), do: "#{n}th"
+
+  def format_page(content) do
+    result =
+      content
+      |> String.split("\n\n")
+      |> Enum.map(fn s -> Tag.content_tag(:p, s, class: "py-2") end)
+  end
 end
