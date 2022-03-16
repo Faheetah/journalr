@@ -50,7 +50,7 @@ defmodule JournalrWeb.JournalLive.Show do
     }
   end
 
-  def handle_info({:page_created, page}, socket), do: socket
+  def handle_info({:page_created, _page}, socket), do: socket
 
   defp page_title(:show), do: "Show Journal"
   defp page_title(:edit), do: "Edit Journal"

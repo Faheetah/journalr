@@ -41,7 +41,7 @@ defmodule JournalrWeb.JournalLive.PageFormComponent do
          socket
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{} = _changeset} ->
         {
           :noreply,
           socket
