@@ -16,7 +16,7 @@ defmodule Journalr.Journals.Page do
   @doc false
   def changeset(page, attrs) do
     page
-    |> cast(attrs, [:content, :journal_id])
+    |> cast(attrs, [:content, :journal_id, :inserted_at])
     |> cast_assoc(:journal)
     |> validate_required([:content])
   end

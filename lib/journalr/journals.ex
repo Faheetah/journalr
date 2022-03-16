@@ -121,9 +121,10 @@ defmodule Journalr.Journals do
     Repo.all(Page)
   end
 
+  @per_page 10
   # @todo implement offset and infinite scrolling
-  def list_pages_for_journal(journal, _offset \\ 0) do
-    from(p in Page, where: [journal_id: ^journal.id], order_by: [desc: p.inserted_at])
+  def list_pages_for_journal(journal, offset \\ 0) do
+    from(p in Page, limit: @per_page, offset: ^offset * @per_page, where: [journal_id: ^journal.id], order_by: [desc: p.inserted_at])
     |> Repo.all()
   end
 

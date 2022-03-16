@@ -18,7 +18,12 @@ defmodule JournalrWeb.JournalLive.Show do
         Phoenix.PubSub.subscribe(Journalr.PubSub, "pages-#{journal_id}")
       end
 
-      {:ok, assign(socket, :journals, Journals.list_journals_for_user(user))}
+      {
+        :ok,
+        socket
+        |> assign(:journals, Journals.list_journals_for_user(user))
+        |> assign(:offset, 0)
+      }
     else
       {
         :ok,
@@ -37,7 +42,7 @@ defmodule JournalrWeb.JournalLive.Show do
       socket
       |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:journal, journal)
-      |> assign(:pages, Journals.list_pages_for_journal(journal))
+      |> assign(:pages, load_pages(journal, socket.assigns.offset))
       |> assign(:page, %Page{})
     }
   end
@@ -51,6 +56,20 @@ defmodule JournalrWeb.JournalLive.Show do
   end
 
   def handle_info({:page_created, _page}, socket), do: socket
+
+  @impl true
+  def handle_event("load-more", _, %{assigns: assigns} = socket) do
+    {
+      :noreply,
+      socket
+      |> assign(pages: load_pages(socket.assigns.journal, assigns.offset + 1))
+      |> assign(offset: assigns.offset + 1)
+    }
+  end
+
+  defp load_pages(journal, offset) do
+    Journals.list_pages_for_journal(journal, offset)
+  end
 
   defp page_title(:show), do: "Show Journal"
   defp page_title(:edit), do: "Edit Journal"
