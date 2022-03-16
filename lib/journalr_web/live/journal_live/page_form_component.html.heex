@@ -1,0 +1,13 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id="page-form"
+    phx-target={@myself}
+    phx-submit="save">
+
+    <%= hidden_input f, :journal_id, value: @journal.id %>
+    <%= textarea f, :content, placeholder: "Write something", class: "w-full h-48 p-2 border" %>
+    <%= submit "Save", phx_disable_with: "Saving...", class: "w-full border bg-neutral-100" %>
+  </.form>
+</div>

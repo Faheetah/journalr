@@ -1,13 +1,26 @@
 defmodule JournalrWeb.JournalLive.Index do
+  @moduledoc false
+
   use JournalrWeb, :live_view
 
+  alias Journalr.Accounts
   alias Journalr.Journals
   alias Journalr.Journals.Journal
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :journals, list_journals())}
+  def mount(_params, session, socket) do
+    user =
+      session["user_token"]
+      |> Accounts.get_user_by_session_token()
+
+    {
+      :ok,
+      socket
+      |> assign(:journals, Journals.list_journals_for_user(user))
+      |> assign(:current_user, user)
+    }
   end
+
 
   @impl true
   def handle_params(params, _url, socket) do

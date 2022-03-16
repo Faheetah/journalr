@@ -1,4 +1,6 @@
 defmodule JournalrWeb.LiveHelpers do
+  @moduledoc false
+
   import Phoenix.LiveView
   import Phoenix.LiveView.Helpers
 
@@ -57,4 +59,27 @@ defmodule JournalrWeb.LiveHelpers do
     |> JS.hide(to: "#modal", transition: "fade-out")
     |> JS.hide(to: "#modal-content", transition: "fade-out-scale")
   end
+
+  @days %{1 => "January", 2 => "February", 3 => "March", 4 => "April", 5 => "May", 6 => "June", 7 => "July", 8 => "August", 9 => "September", 10 => "October", 11 => "November", 12 => "December"}
+
+  def format_datetime(datetime) do
+    "#{@days[datetime.month]} #{inflex(datetime.day)}, #{datetime.year} #{convert_hour(datetime.hour)}:#{pad_minute(datetime.minute)}#{am_or_pm(datetime.hour)}"
+  end
+
+  defp convert_hour(0), do: "12"
+  defp convert_hour(12), do: "12"
+  defp convert_hour(hour), do: rem(hour, 12)
+
+  defp pad_minute(minute), do: String.pad_leading(Integer.to_string(minute), 2, "0")
+
+  defp am_or_pm(hour) when hour > 12, do: "PM"
+  defp am_or_pm(_), do: "AM"
+
+  defp inflex(1), do: "1st"
+  defp inflex(2), do: "2nd"
+  defp inflex(21), do: "1st"
+  defp inflex(22), do: "22nd"
+  defp inflex(23), do: "23rd"
+  defp inflex(31), do: "31st"
+  defp inflex(n), do: "#{n}th"
 end

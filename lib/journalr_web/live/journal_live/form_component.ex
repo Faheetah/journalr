@@ -1,4 +1,6 @@
 defmodule JournalrWeb.JournalLive.FormComponent do
+  @moduledoc false
+
   use JournalrWeb, :live_component
 
   alias Journalr.Journals
@@ -41,7 +43,7 @@ defmodule JournalrWeb.JournalLive.FormComponent do
   end
 
   defp save_journal(socket, :new, journal_params) do
-    case Journals.create_journal(journal_params) do
+    case Journals.create_journal(Map.put(journal_params, "user_id", socket.assigns.current_user.id)) do
       {:ok, _journal} ->
         {:noreply,
          socket

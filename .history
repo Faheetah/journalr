@@ -2,3 +2,4 @@ mix phx.new --live journalr
 mix phx.gen.release
 mix phx.gen.auth Accounts User users
 mix phx.gen.live Journals Journal journals public:boolean user_id:references:users
+mix phx.gen.live Journals Page pages public:boolean content:text journal_id:references:journals
