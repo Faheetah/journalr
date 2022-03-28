@@ -79,16 +79,42 @@ defmodule JournalrWeb.LiveHelpers do
 
   defp inflex(1), do: "1st"
   defp inflex(2), do: "2nd"
-  defp inflex(21), do: "1st"
+  defp inflex(3), do: "3nd"
+  # 4th 5th 6th 7th 8th 9th 10th
+  # 11th 12th 13th 14th 15th 16th 17th 18th 19th 20th
+  defp inflex(21), do: "21st"
   defp inflex(22), do: "22nd"
   defp inflex(23), do: "23rd"
+  # 24th 25th 26th 27th 28th 29th 30th
   defp inflex(31), do: "31st"
   defp inflex(n), do: "#{n}th"
 
   def format_page(content) do
-    result =
-      content
-      |> String.split("\n\n")
-      |> Enum.map(fn s -> Tag.content_tag(:p, s, class: "py-2") end)
+    content
+    |> String.split("\n\n")
+    |> Enum.map(fn s -> Tag.content_tag(:p, parse_hashtags(s), class: "py-2") end)
+  end
+
+  @alphanums Enum.into(?a..?z, []) ++ Enum.into(?A..?Z, []) ++ Enum.into(?0..?9, [])
+
+  defp parse_hashtags(content), do: parse_hashtags(content, [])
+  defp parse_hashtags("", result), do: Enum.reverse(result)
+  defp parse_hashtags(<<?#::8, rest::binary>>, result) do
+    parse_hashtags(rest, result, "")
+  end
+  defp parse_hashtags(<<b::8, rest::binary>>, result) do
+    parse_hashtags(rest, [b | result])
+  end
+  defp parse_hashtags("", result, hashtag), do: [format_hashtag(hashtag) | result]
+  defp parse_hashtags(<<b::8, rest::binary>> = content, result, hashtag) do
+    if b in @alphanums do
+      parse_hashtags(rest, result, hashtag <> <<b>>)
+    else
+      parse_hashtags(content, [format_hashtag(hashtag) | result])
+    end
+  end
+
+  defp format_hashtag(hashtag) do
+    Tag.content_tag(:a, "#" <> hashtag, href: "/search?tag=#{hashtag}", class: "font-bold")
   end
 end

@@ -7,6 +7,8 @@ defmodule Journalr.Journals do
   alias Journalr.Repo
 
   alias Journalr.Journals.Journal
+  alias Journalr.Journals.PageTag
+  alias Journalr.Journals.Tag
 
   @doc """
   Returns the list of journals.
@@ -121,11 +123,32 @@ defmodule Journalr.Journals do
     Repo.all(Page)
   end
 
-  @per_page 10
+  @per_page 20
   # @todo implement offset and infinite scrolling
   def list_pages_for_journal(journal, offset \\ 0) do
-    from(p in Page, limit: @per_page, offset: ^offset * @per_page, where: [journal_id: ^journal.id], order_by: [desc: p.inserted_at])
-    |> Repo.all()
+    Repo.all(
+      from p in Page,
+      where: [journal_id: ^journal.id],
+      limit: @per_page,
+      offset: ^offset * @per_page,
+      order_by: [desc: p.inserted_at]
+    )
+  end
+
+  def list_pages_by_tag(tag, user, offset \\ 0) do
+    Repo.all(
+      from p in Page,
+      preload: [:pages_tags],
+      join: pt in PageTag,
+      on: pt.tag_id == ^tag.id and pt.page_id == p.id,
+      join: j in Journal,
+      on: j.user_id == ^user.id and p.journal_id == j.id,
+      preload: [:journal],
+      limit: @per_page,
+      offset: ^offset * @per_page,
+      order_by: [desc: p.inserted_at]
+    )
+    |> Enum.dedup_by(fn page -> page.id end)
   end
 
   @doc """
@@ -157,8 +180,18 @@ defmodule Journalr.Journals do
 
   """
   def create_page(attrs \\ %{}) do
+    pages_tags =
+      Regex.scan(~r/#([a-zA-Z0-9]+)/, attrs["content"])
+      |> Enum.dedup()
+      |> Enum.map(fn [_, tag] ->
+        %{
+          tag_id: get_or_insert_tag(tag).id,
+          user_id: get_journal!(attrs["journal_id"]).id
+        }
+      end)
+
     %Page{}
-    |> Page.changeset(attrs)
+    |> Page.changeset(Map.put(attrs, "pages_tags", pages_tags))
     |> Repo.insert()
   end
 
@@ -207,5 +240,13 @@ defmodule Journalr.Journals do
   """
   def change_page(%Page{} = page, attrs \\ %{}) do
     Page.changeset(page, attrs)
+  end
+
+  def get_tag_by_name(tag) do
+    Repo.get_by(Tag, tag: tag)
+  end
+
+  def get_or_insert_tag(tag) do
+    Repo.get_by(Tag, tag: tag) || Repo.insert!(%Tag{tag: tag})
   end
 end

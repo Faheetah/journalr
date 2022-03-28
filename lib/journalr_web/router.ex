@@ -80,6 +80,8 @@ defmodule JournalrWeb.Router do
 
     live "/journals/:id", JournalLive.Show, :show
     live "/journals/:id/show/edit", JournalLive.Show, :edit
+
+    live "/search", JournalLive.Search, :search
   end
 
   scope "/", JournalrWeb do

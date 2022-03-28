@@ -5,6 +5,7 @@ defmodule Journalr.Accounts.User do
   import Ecto.Changeset
 
   alias Journalr.Journals.Journal
+  alias Journalr.Journals.PageTag
 
   schema "users" do
     field :username, :string

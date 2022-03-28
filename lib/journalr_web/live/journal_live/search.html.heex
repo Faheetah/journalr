@@ -1,0 +1,7 @@
+<div class="grid gap-12 grid-cols-3 w-2/3 m-auto">
+  <div class="divide-y" phx-hook="InfiniteScroll" id="pages" phx-update="append">
+    <%= for page <- @pages do %>
+      <%= live_component JournalrWeb.JournalLive.PageComponent, id: "page-#{page.id}", socket: @socket, page: page, show_journal: true %>
+    <% end %>
+  </div>
+</div>
