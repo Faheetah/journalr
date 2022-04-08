@@ -21,8 +21,8 @@ defmodule JournalrWeb.JournalLive.Show do
       {
         :ok,
         socket
-        |> assign(:journals, Journals.list_journals_for_user(user))
         |> assign(:offset, 0)
+        |> assign(:current_user, user)
       }
     else
       {
