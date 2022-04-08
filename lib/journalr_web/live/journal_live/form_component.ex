@@ -3,6 +3,7 @@ defmodule JournalrWeb.JournalLive.FormComponent do
 
   use JournalrWeb, :live_component
 
+  alias JournalrWeb.Router.Helpers, as: Routes
   alias Journalr.Journals
 
   @impl true
@@ -44,11 +45,13 @@ defmodule JournalrWeb.JournalLive.FormComponent do
 
   defp save_journal(socket, :new, journal_params) do
     case Journals.create_journal(Map.put(journal_params, "user_id", socket.assigns.current_user.id)) do
-      {:ok, _journal} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Journal created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+      {:ok, journal} ->
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Journal created successfully")
+          |> push_redirect(to: Routes.journal_show_path(socket, :show, journal))
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

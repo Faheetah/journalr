@@ -8,12 +8,12 @@
         action={@live_action}
         current_user={@current_user}
         journal={@journal}
-        return_to={Routes.journal_index_path(@socket, :index)}
       />
     </.modal>
   <% end %>
 
   <div class="space-y-2">
+    <div class="text-4xl">Journals</div>
     <%= for journal <- @journals do %>
       <div id={"journal-#{journal.id}"} class="font-bold text-xl">
           <%= live_redirect to: Routes.journal_show_path(@socket, :show, journal) do %>

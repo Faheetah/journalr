@@ -9,9 +9,7 @@ defmodule JournalrWeb.JournalLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    user =
-      session["user_token"]
-      |> Accounts.get_user_by_session_token()
+    user = Accounts.get_user_by_session_token(session["user_token"])
 
     {
       :ok,
