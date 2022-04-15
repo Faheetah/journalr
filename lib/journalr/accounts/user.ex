@@ -5,17 +5,22 @@ defmodule Journalr.Accounts.User do
   import Ecto.Changeset
 
   alias Journalr.Journals.Journal
-  alias Journalr.Journals.PageTag
 
   schema "users" do
     field :username, :string
     field :email, :string
+    field :current_journal, :integer
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
     has_many :journals, Journal, on_delete: :delete_all
 
     timestamps()
+  end
+
+  def current_journal_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:current_journal])
   end
 
   @doc """

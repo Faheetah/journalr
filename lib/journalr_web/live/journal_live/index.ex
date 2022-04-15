@@ -43,6 +43,19 @@ defmodule JournalrWeb.JournalLive.Index do
     |> assign(:journal, nil)
   end
 
+  defp apply_action(socket, :index_or_show, params) do
+    current_journal = Journals.get_current_journal(socket.assigns.current_user)
+
+    if current_journal do
+      socket
+      |> push_redirect(to: Routes.journal_show_path(socket, :show, current_journal))
+    else
+      socket
+      |> push_redirect(to: Routes.journal_index_path(socket, :index))
+    end
+  end
+
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     journal = Journals.get_journal!(id)

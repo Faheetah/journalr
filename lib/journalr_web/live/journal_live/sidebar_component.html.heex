@@ -1,4 +1,4 @@
-<div class="space-y-2">
+<div class="space-y-2 col-span-2">
   <%= for journal <- @journals do %>
     <div id={"journal-#{journal.id}"} class="font-bold text-xl">
         <%= live_redirect to: Routes.journal_show_path(@socket, :show, journal) do %>

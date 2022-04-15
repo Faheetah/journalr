@@ -68,7 +68,7 @@ defmodule JournalrWeb.Router do
   scope "/", JournalrWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live "/", JournalLive.Index, :index
+    live "/", JournalLive.Index, :index_or_show
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update

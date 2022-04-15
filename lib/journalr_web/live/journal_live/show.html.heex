@@ -1,4 +1,4 @@
-<div class="grid gap-12 grid-cols-3 w-2/3 m-auto">
+<div class="md:grid gap-12 md:grid-cols-12 md:w-2/3 p-4 m-auto">
   <%= if @live_action in [:new, :edit] do %>
     <.modal return_to={Routes.journal_index_path(@socket, :index)}>
       <.live_component
@@ -12,7 +12,13 @@
     </.modal>
   <% end %>
 
-  <div class="col-span-2 w-full space-y-8">
+  <.live_component
+    module={JournalrWeb.JournalLive.SidebarComponent}
+    id={:sidebar}
+    user={@current_user}
+  />
+
+  <div class="col-span-8 w-full space-y-8">
     <div>
       <%= live_patch @journal.name, to: Routes.journal_show_path(@socket, :edit, @journal), class: "text-4xl" %>
     </div>
@@ -33,9 +39,5 @@
     </div>
   </div>
 
-  <.live_component
-    module={JournalrWeb.JournalLive.SidebarComponent}
-    id={:sidebar}
-    user={@current_user}
-  />
+  <div class="col-span-2" />
 </div>

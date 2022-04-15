@@ -13,6 +13,10 @@ defmodule JournalrWeb.JournalLive.Show do
       session["user_token"]
       |> Accounts.get_user_by_session_token()
 
+    if user.current_journal != journal_id do
+      Journals.update_user_current_journal(user, journal_id)
+    end
+
     if Journals.get_journal!(journal_id).user_id == user.id do
       if connected?(socket) do
         Phoenix.PubSub.subscribe(Journalr.PubSub, "pages-#{journal_id}")
@@ -35,7 +39,7 @@ defmodule JournalrWeb.JournalLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id}, _uri, socket) do
     journal = Journals.get_journal!(id)
     {
       :noreply,

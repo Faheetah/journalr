@@ -6,6 +6,7 @@ defmodule Journalr.Journals do
   import Ecto.Query, warn: false
   alias Journalr.Repo
 
+  alias Journalr.Accounts.User
   alias Journalr.Journals.Journal
   alias Journalr.Journals.PageTag
   alias Journalr.Journals.Tag
@@ -42,6 +43,13 @@ defmodule Journalr.Journals do
 
   """
   def get_journal!(id), do: Repo.get!(Journal, id)
+
+  def get_current_journal(%User{:current_journal => id}), do: get_journal!(id)
+
+  def update_user_current_journal(user, journal_id) do
+    User.current_journal_changeset(user, %{"current_journal" => journal_id})
+    |> Repo.update()
+  end
 
   @doc """
   Creates a journal.
