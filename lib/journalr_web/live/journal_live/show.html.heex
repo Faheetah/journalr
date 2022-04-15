@@ -1,4 +1,4 @@
-<div class="md:grid gap-12 md:grid-cols-12 md:w-2/3 p-4 m-auto">
+<div class="lg:grid gap-12 lg:grid-cols-12 lg:w-2/3 p-4 m-auto">
   <%= if @live_action in [:new, :edit] do %>
     <.modal return_to={Routes.journal_index_path(@socket, :index)}>
       <.live_component

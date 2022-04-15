@@ -7,18 +7,25 @@
     phx-submit="save">
 
     <%= hidden_input f, :journal_id, value: @journal.id %>
-    <%= datetime_select f, :inserted_at, year: [options: 2022..1900], default: NaiveDateTime.utc_now(), builder: fn b -> %>
-      <%= b.(:month, class:  "p-1 biorder border-neutral-300 bg-neutral-100") %>
-      <%= b.(:day, class:    "p-1 biorder border-neutral-300 bg-neutral-100") %>
-      <span class="font-bold">,</span>
-      <%= b.(:year, class:   "p-1 biorder border-neutral-300 bg-neutral-100") %>
-      <%= b.(:hour, class:   "p-1 biorder border-neutral-300 bg-neutral-100") %>
-      <span class="font-bold">:</span>
-      <%= b.(:minute, class: "p-1 biorder border-neutral-300 bg-neutral-100") %>
-    <% end %>
+
     <div class="mt-2">
-    <%= textarea f, :content, placeholder: "Write something", class: "w-full h-48 p-2 border" %>
+    <%= textarea f, :content, placeholder: "Write something", class: "w-full h-48 p-2 border border-neutral-400" %>
     </div>
-    <%= submit "Save", phx_disable_with: "Saving...", class: "w-full h-10 border bg-neutral-100" %>
+
+    <div class="text-sm lg:text-lg lg:flex space-y-2 lg:space-y-0">
+      <div class="flex-1">
+        <%= datetime_select f, :inserted_at, year: [options: 2022..1900], default: NaiveDateTime.utc_now(), builder: fn b -> %>
+          <%= b.(:month, class:  "p-1 border-b-2 border-neutral-400") %>
+          <%= b.(:day, class:    "p-1 border-b-2 border-neutral-400") %>
+          <span class="font-bold">,</span>
+          <%= b.(:year, class:   "p-1 border-b-2 border-neutral-400") %>
+          <%= b.(:hour, class:   "p-1 border-b-2 border-neutral-400") %>
+          <span class="font-bold">:</span>
+          <%= b.(:minute, class: "p-1 border-b-2 border-neutral-400") %>
+        <% end %>
+      </div>
+
+      <%= submit "Post", phx_disable_with: "Saving...", class: "px-8 h-10 w-full lg:w-auto border bg-neutral-100 text-xl" %>
+    </div>
   </.form>
 </div>
