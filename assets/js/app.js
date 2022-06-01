@@ -10,7 +10,7 @@ import {TzOffset} from "./tz_offset"
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let tz_offset = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-let liveSocket = new LiveSocket("/live", Socket, {hooks: {InfiniteScroll, LocalTimezone}, params: {_csrf_token: csrfToken, tz_offset: tz_offset}})
+let liveSocket = new LiveSocket("/live", Socket, {hooks: {InfiniteScroll, TzOffset}, params: {_csrf_token: csrfToken, tz_offset: tz_offset}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})

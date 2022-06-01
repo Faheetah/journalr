@@ -43,8 +43,13 @@ defmodule Journalr.Journals do
 
   """
   def get_journal!(id), do: Repo.get!(Journal, id)
+  def get_journal(id), do: Repo.get(Journal, id)
 
-  def get_current_journal(%User{:current_journal => id}), do: get_journal!(id)
+  def get_current_journal(%User{:current_journal => id}) do
+    with {:ok, journal} <- get_journal(id) do
+      journal
+    end
+  end
 
   def update_user_current_journal(user, journal_id) do
     User.current_journal_changeset(user, %{"current_journal" => journal_id})
