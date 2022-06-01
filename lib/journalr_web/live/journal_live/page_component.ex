@@ -16,10 +16,7 @@ defmodule JournalrWeb.JournalLive.PageComponent do
     {
       :noreply,
       socket
-      |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:page, page)
     }
   end
-
-  defp page_title(_), do: ""
 end

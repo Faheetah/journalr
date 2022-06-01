@@ -64,8 +64,14 @@ defmodule JournalrWeb.LiveHelpers do
 
   @days %{1 => "January", 2 => "February", 3 => "March", 4 => "April", 5 => "May", 6 => "June", 7 => "July", 8 => "August", 9 => "September", 10 => "October", 11 => "November", 12 => "December"}
 
-  def format_datetime(datetime) do
-    "#{@days[datetime.month]} #{inflex(datetime.day)}, #{datetime.year} #{convert_hour(datetime.hour)}:#{pad_minute(datetime.minute)}#{am_or_pm(datetime.hour)}"
+  def format_datetime(datetime, "None") do
+    "#{@days[datetime.month]} #{inflex(datetime.day)}, #{datetime.year}"
+  end
+
+  def format_datetime(datetime, tz_offset) do
+    hour = convert_hour(datetime.hour - div(tz_offset, 60))
+    minute = pad_minute(datetime.minute - rem(tz_offset, 60))
+    "#{@days[datetime.month]} #{inflex(datetime.day)}, #{datetime.year} #{hour}:#{minute}#{am_or_pm(datetime.hour)}"
   end
 
   defp convert_hour(0), do: "12"

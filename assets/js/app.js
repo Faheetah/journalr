@@ -5,27 +5,15 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import {InfiniteScroll} from "./infinite_scroll"
+import {TzOffset} from "./tz_offset"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {hooks: {InfiniteScroll}, params: {_csrf_token: csrfToken}})
+let tz_offset = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+let liveSocket = new LiveSocket("/live", Socket, {hooks: {InfiniteScroll, LocalTimezone}, params: {_csrf_token: csrfToken, tz_offset: tz_offset}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
-
-// This isn't working, just disable the loading bar for now
-// let topBarScheduled = undefined
-//
-// window.addEventListener("phx:page-loading-start", () => {
-  // if(!topBarScheduled) {
-    // topBarScheduled = setTimeout(() => topbar.show(), 30)
-  // }
-// })
-//
-// window.addEventListener("phx:page-loading-stop", () => {
-  // clearTimeout(topBarScheduled)
-  // topBarScheduled = undefined
-  // topbar.hide()
-// })
 
 // connect if there are any LiveViews on the page
 liveSocket.connect()

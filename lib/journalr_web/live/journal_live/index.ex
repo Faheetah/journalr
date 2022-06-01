@@ -43,7 +43,7 @@ defmodule JournalrWeb.JournalLive.Index do
     |> assign(:journal, nil)
   end
 
-  defp apply_action(socket, :index_or_show, params) do
+  defp apply_action(socket, :index_or_show, _params) do
     current_journal = Journals.get_current_journal(socket.assigns.current_user)
 
     if current_journal do

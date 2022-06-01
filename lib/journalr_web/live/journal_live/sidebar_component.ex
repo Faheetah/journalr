@@ -3,7 +3,6 @@ defmodule JournalrWeb.JournalLive.SidebarComponent do
 
   use JournalrWeb, :live_component
 
-  alias Journalr.Accounts
   alias Journalr.Journals
 
   def update(%{user: user}, socket) do
@@ -15,7 +14,7 @@ defmodule JournalrWeb.JournalLive.SidebarComponent do
     }
   end
 
-  def handle_params(params, _, socket) do
+  def handle_params(_params, _, socket) do
     {:noreply, socket}
   end
 end
