@@ -9,6 +9,7 @@ defmodule Journalr.Journals.Page do
 
   schema "pages" do
     field :content, :string
+    field :color, :string, default: "white"
     belongs_to :journal, Journal
     has_many :pages_tags, PageTag, on_delete: :delete_all
 
@@ -18,7 +19,7 @@ defmodule Journalr.Journals.Page do
   @doc false
   def changeset(page, attrs) do
     page
-    |> cast(attrs, [:content, :journal_id, :inserted_at])
+    |> cast(attrs, [:content, :color, :journal_id, :inserted_at])
     |> cast_assoc(:journal)
     |> cast_assoc(:pages_tags)
     |> validate_required([:content])

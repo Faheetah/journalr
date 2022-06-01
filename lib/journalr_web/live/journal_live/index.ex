@@ -16,6 +16,7 @@ defmodule JournalrWeb.JournalLive.Index do
       socket
       |> assign(:journals, Journals.list_journals_for_user(user))
       |> assign(:current_user, user)
+      |> assign(:tz_offset, nil)
     }
   end
 
