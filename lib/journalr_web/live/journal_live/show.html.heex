@@ -1,4 +1,4 @@
-<div class="lg:grid gap-12 lg:grid-cols-12 lg:w-2/3 p-4 m-auto" id="local-timezone" phx-hook="LocalTimezone">
+<div class="lg:grid gap-12 lg:grid-cols-12 lg:w-2/3 p-4 m-auto" phx-hook="LocalTimezone">
   <%= if @live_action in [:new, :edit] do %>
     <.modal return_to={Routes.journal_index_path(@socket, :index)}>
       <.live_component

@@ -7,6 +7,8 @@ defmodule JournalrWeb.JournalLive.Search do
   alias Journalr.Journals
   alias Journalr.Journals.Page
 
+  on_mount JournalrWeb.JournalLive.TimezoneHook
+
   @impl true
   def mount(%{"tag" => tag_name}, session, socket) do
     user =
@@ -22,6 +24,7 @@ defmodule JournalrWeb.JournalLive.Search do
         |> assign(:tag, tag)
         |> assign(:user, user)
         |> assign(:offset, 0)
+        |> assign(:tz_offset, nil)
       }
     else
       {

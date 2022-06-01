@@ -1,4 +1,4 @@
-export const LocalTimezone = {
+export const TzOffset = {
   mounted() {
     const date = new Date();
     let tz_offset = date.getTimezoneOffset();

@@ -69,7 +69,9 @@ defmodule JournalrWeb.JournalLive.Show do
     {
       :noreply,
       socket
-      |> assign(pages: load_pages(assigns.journal, assigns.offset + 1))
+      |> update(:pages, fn pages ->
+        pages ++ load_pages(assigns.journal, assigns.offset + 1)
+      end)
       |> assign(offset: assigns.offset + 1)
     }
   end
@@ -89,7 +91,4 @@ defmodule JournalrWeb.JournalLive.Show do
   defp load_pages(journal, offset) do
     Journals.list_pages_for_journal(journal, offset)
   end
-
-  defp page_title(:show), do: "Show Journal"
-  defp page_title(:edit), do: "Edit Journal"
 end

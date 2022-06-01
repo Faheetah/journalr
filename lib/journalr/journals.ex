@@ -133,13 +133,15 @@ defmodule Journalr.Journals do
 
   @per_page 20
   # @todo implement offset and infinite scrolling
-  def list_pages_for_journal(journal, offset \\ 0) do
+  def list_pages_for_journal(journal, page \\ 0) do
+    offset = page * @per_page
     Repo.all(
       from p in Page,
       where: [journal_id: ^journal.id],
       limit: @per_page,
-      offset: ^offset * @per_page,
-      order_by: [desc: p.inserted_at]
+      offset: ^offset,
+      order_by: [desc: p.inserted_at],
+      order_by: [desc: p.id]
     )
   end
 
@@ -154,7 +156,8 @@ defmodule Journalr.Journals do
       preload: [:journal],
       limit: @per_page,
       offset: ^offset * @per_page,
-      order_by: [desc: p.inserted_at]
+      order_by: [desc: p.inserted_at],
+      order_by: [desc: p.id]
     )
     |> Enum.dedup_by(fn page -> page.id end)
   end
