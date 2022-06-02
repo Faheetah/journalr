@@ -1,13 +1,11 @@
 <div id={"page-#{@page.id}"}>
   <%= if @page.__meta__.state != :deleted do %>
-    <div class="text-neutral-400 md:flex">
-      <%= if @show_journal do %>
-        <div>
-          <%= link @page.journal.name, to: "/journals/#{@page.journal.id}", class: "font-bold" %>
-        </div>
-      <% end %>
+    <div class="text-neutral-500 md:flex">
       <div class="grow">
         <%= format_datetime(@page.inserted_at, @tz_offset) %>
+        <%= if @show_journal do %>
+            in <%= link @page.journal.name, to: "/journals/#{@page.journal.id}", class: "font-bold" %>
+        <% end %>
       </div>
       <div class="text-lg md:inline space-x-2">
         <%= link to: "#", phx_click: "delete", phx_value_id: @page.id, data: [confirm: "Are you sure?"] do %>

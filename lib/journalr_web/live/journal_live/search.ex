@@ -6,6 +6,7 @@ defmodule JournalrWeb.JournalLive.Search do
   alias Journalr.Accounts
   alias Journalr.Journals
   alias Journalr.Journals.Page
+  alias Journalr.Repo
 
   on_mount JournalrWeb.JournalLive.TimezoneHook
 
@@ -20,11 +21,13 @@ defmodule JournalrWeb.JournalLive.Search do
       {
         :ok,
         socket
+        |> assign(:page_title, "Journalr: showing tag - #{tag_name}")
         |> assign(:pages, Journals.list_pages_by_tag(tag, user))
         |> assign(:tag, tag)
         |> assign(:user, user)
         |> assign(:offset, 0)
-        |> assign(:tz_offset, nil)
+        |> assign(:tz_offset, nil),
+        temporary_assigns: [posts: []]
       }
     else
       {
@@ -37,16 +40,6 @@ defmodule JournalrWeb.JournalLive.Search do
   end
 
   @impl true
-  def handle_params(_, _, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:page_title, page_title(socket.assigns.live_action))
-      |> assign(:page, %Page{})
-    }
-  end
-
-  @impl true
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
     {
       :noreply,
@@ -56,5 +49,13 @@ defmodule JournalrWeb.JournalLive.Search do
     }
   end
 
-  defp page_title(_), do: "Search"
+  def handle_event("highlight", %{"id" => id, "color" => color}, socket) do
+    {:ok, page} =
+      Journals.get_page!(id)
+      |> Journals.update_page(%{"color" => color})
+
+    {:noreply, assign(socket, :pages, [Repo.preload(page, :journal)])}
+  end
+
+
 end
