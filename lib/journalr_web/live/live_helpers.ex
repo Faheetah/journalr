@@ -139,7 +139,7 @@ defmodule JournalrWeb.LiveHelpers do
   defp parse_hashtags(<<b::8, rest::binary>>, result) do
     parse_hashtags(rest, [b | result])
   end
-  defp parse_hashtags("", result, hashtag), do: [format_hashtag(hashtag) | result]
+  defp parse_hashtags("", result, hashtag), do: Enum.reverse([format_hashtag(hashtag) | result])
   defp parse_hashtags(<<b::8, rest::binary>> = content, result, hashtag) do
     if b in @alphanums do
       parse_hashtags(rest, result, hashtag <> <<b>>)
