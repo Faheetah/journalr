@@ -29,7 +29,8 @@ defmodule JournalrWeb.JournalLive.Show do
         socket
         |> assign(:offset, 0)
         |> assign(:current_user, user)
-        |> assign(:tz_offset, nil)
+        |> assign(:tz_offset, nil),
+        temporary_assigns: [posts: []]
       }
     else
       {
@@ -58,11 +59,15 @@ defmodule JournalrWeb.JournalLive.Show do
   def handle_info({:page_created, page}, socket) when page.journal_id == socket.assigns.journal.id do
     {
       :noreply,
-      update(socket, :pages, fn pages -> [page | pages] end)
+      assign(socket, :pages, [page])
     }
   end
 
   def handle_info({:page_created, _page}, socket), do: socket
+
+  def handle_info({:page_deleted, page}, socket) do
+    {:noreply, assign(socket, :pages, [page])}
+  end
 
   @impl true
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
@@ -71,34 +76,27 @@ defmodule JournalrWeb.JournalLive.Show do
     {
       :noreply,
       socket
-      |> update(:pages, fn pages ->
-        pages ++ new_pages
-      end)
+      |> assign(:pages, new_pages)
       |> assign(offset: assigns.offset + 1)
     }
   end
 
   def handle_event("highlight", %{"id" => id, "color" => color}, socket) do
-    Journals.get_page!(id)
-    |> Journals.update_page(%{"color" => color})
+    {:ok, page} =
+      Journals.get_page!(id)
+      |> Journals.update_page(%{"color" => color})
 
-    {
-      :noreply,
-      socket
-      |> assign(pages: load_pages(socket.assigns.journal, 0))
-    }
+    {:noreply, assign(socket, :pages, [page])}
   end
 
   def handle_event("delete", %{"id" => id}, %{assigns: assigns} = socket) do
-    Journals.get_page!(id)
-    |> Journals.delete_page()
+    {:ok, page} =
+      Journals.get_page!(id)
+      |> Journals.delete_page()
 
-    {
-      :noreply,
-      socket
-      |> assign(pages: load_pages(assigns.journal, 0))
-      |> assign(offset: 0)
-    }
+    send(self(), {:page_deleted, page})
+
+    {:noreply, socket}
   end
 
   defp load_pages(journal, offset) do
