@@ -89,7 +89,7 @@ defmodule JournalrWeb.JournalLive.Show do
     {:noreply, assign(socket, :pages, [page])}
   end
 
-  def handle_event("delete", %{"id" => id}, %{assigns: assigns} = socket) do
+  def handle_event("delete", %{"id" => id}, socket) do
     {:ok, page} =
       Journals.get_page!(id)
       |> Journals.delete_page()

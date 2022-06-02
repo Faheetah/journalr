@@ -5,7 +5,6 @@ defmodule JournalrWeb.JournalLive.Search do
 
   alias Journalr.Accounts
   alias Journalr.Journals
-  alias Journalr.Journals.Page
   alias Journalr.Repo
 
   on_mount JournalrWeb.JournalLive.TimezoneHook
@@ -40,6 +39,11 @@ defmodule JournalrWeb.JournalLive.Search do
   end
 
   @impl true
+  def handle_info({:page_deleted, page}, socket) do
+    {:noreply, assign(socket, :pages, [page])}
+  end
+
+  @impl true
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
     {
       :noreply,
@@ -57,5 +61,13 @@ defmodule JournalrWeb.JournalLive.Search do
     {:noreply, assign(socket, :pages, [Repo.preload(page, :journal)])}
   end
 
+  def handle_event("delete", %{"id" => id}, socket) do
+    {:ok, page} =
+      Journals.get_page!(id)
+      |> Journals.delete_page()
 
+    send(self(), {:page_deleted, page})
+
+    {:noreply, socket}
+  end
 end
