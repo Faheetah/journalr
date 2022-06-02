@@ -140,6 +140,7 @@ defmodule Journalr.Journals do
   # @todo implement offset and infinite scrolling
   def list_pages_for_journal(journal, page \\ 0) do
     offset = page * @per_page
+
     Repo.all(
       from p in Page,
       where: [journal_id: ^journal.id],
@@ -150,7 +151,9 @@ defmodule Journalr.Journals do
     )
   end
 
-  def list_pages_by_tag(tag, user, offset \\ 0) do
+  def list_pages_by_tag(tag, user, page \\ 0) do
+    offset = page * @per_page
+
     Repo.all(
       from p in Page,
       preload: [:pages_tags],
@@ -160,7 +163,7 @@ defmodule Journalr.Journals do
       on: j.user_id == ^user.id and p.journal_id == j.id,
       preload: [:journal],
       limit: @per_page,
-      offset: ^offset * @per_page,
+      offset: ^offset,
       order_by: [desc: p.inserted_at],
       order_by: [desc: p.id]
     )

@@ -6,15 +6,14 @@ export const InfiniteScroll = {
 
     return scrollTop / (scrollHeight - clientHeight) * 100
   },
-  page() { return this.el.dataset.page },
+  offset() { return this.el.dataset.offset },
   mounted() {
-    this.pending = this.page()
+    this.pending = this.offset()
     window.addEventListener("scroll", e => {
-      if(this.pending == this.page() && this.scrollAt() > 90){
-        this.pending = this.page() + 1
+      if(this.scrollAt() > 90){
         this.pushEvent("load-more", {})
       }
     })
   },
-  updated() { this.pending = this.page() }
+  updated() { this.pending = this.offset() }
 }

@@ -10,8 +10,7 @@ defmodule JournalrWeb.JournalLive.PageComponent do
   end
 
   def handle_params(%{"id" => id}, _, socket) do
-    page =
-      Journals.get_page!(id)
+    page = Journals.get_page!(id)
 
     {
       :noreply,

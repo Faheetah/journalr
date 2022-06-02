@@ -1,4 +1,4 @@
-<div class="lg:grid gap-12 lg:grid-cols-12 lg:w-2/3 p-4 m-auto" phx-hook="LocalTimezone">
+<div class="lg:grid gap-12 lg:grid-cols-12 lg:w-2/3 p-4 m-auto" id="offset" phx-hook="TzOffset">
   <%= if @live_action in [:new, :edit] do %>
     <.modal return_to={Routes.journal_index_path(@socket, :index)}>
       <.live_component
@@ -32,7 +32,7 @@
       return_to={Routes.journal_show_path(@socket, :show, @journal)}
     />
 
-    <div class="divide-y" phx-hook="InfiniteScroll">
+    <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll">
       <%= if @tz_offset do %>
         <%= for page <- @pages do %>
           <.live_component
