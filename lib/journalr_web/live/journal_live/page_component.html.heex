@@ -1,21 +1,22 @@
 <div id={"page-#{@page.id}"}>
   <%= if @page.__meta__.state != :deleted do %>
-    <div class="text-neutral-400">
-      <div>
+    <div class="text-neutral-400 md:flex">
       <%= if @show_journal do %>
-        <%= link @page.journal.name, to: "/journals/#{@page.journal.id}", class: "font-bold" %>
+        <div>
+          <%= link @page.journal.name, to: "/journals/#{@page.journal.id}", class: "font-bold" %>
+        </div>
       <% end %>
-      </div>
-      <div class="text-lg">
+      <div class="grow">
         <%= format_datetime(@page.inserted_at, @tz_offset) %>
-        <%= link to: "#", phx_click: "delete", phx_value_id: @page.id, data: [confirm: "Are you sure?"], class: "ml-2" do %>
+      </div>
+      <div class="text-lg md:inline space-x-2">
+        <%= link to: "#", phx_click: "delete", phx_value_id: @page.id, data: [confirm: "Are you sure?"] do %>
           <svg class="inline w-6 h-6 fill-neutral-300 stroke-neutral-400 hover:fill-neutral-400 hover:stroke-neutral-800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
           </svg>
         <% end %>
-
         <%= for {color, style} <- get_styles(@page.color) do %>
-          <%= link to: "#", phx_click: "highlight", phx_value_id: @page.id, phx_value_color: color, class: "ml-2" do %>
+          <%= link to: "#", phx_click: "highlight", phx_value_id: @page.id, phx_value_color: color do %>
             <svg class={"inline w-6 h-6 #{style}"} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
             </svg>
