@@ -71,14 +71,22 @@ defmodule JournalrWeb.JournalLive.Show do
 
   @impl true
   def handle_event("load-more", _, %{assigns: assigns} = socket) do
-    new_pages = load_pages(assigns.journal, assigns.offset + 1)
+    if assigns.offset do
+      new_pages = load_pages(assigns.journal, assigns.offset + 1)
 
-    {
-      :noreply,
-      socket
-      |> assign(:pages, new_pages)
-      |> assign(offset: assigns.offset + 1)
-    }
+      if new_pages != [] do
+        {
+          :noreply,
+          socket
+          |> assign(:pages, new_pages)
+          |> assign(offset: assigns.offset + 1)
+        }
+      else
+        {:noreply, assign(socket, offset: nil)}
+      end
+    else
+      {:noreply, assign(socket, offset: nil)}
+    end
   end
 
   def handle_event("highlight", %{"id" => id, "color" => color}, socket) do

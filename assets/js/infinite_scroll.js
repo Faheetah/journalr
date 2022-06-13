@@ -10,7 +10,7 @@ export const InfiniteScroll = {
   mounted() {
     this.pending = this.offset()
     window.addEventListener("scroll", e => {
-      if(this.scrollAt() > 90){
+      if(this.offset && this.pending == this.offset() && this.scrollAt() > 90){
         this.pushEvent("load-more", {})
       }
     })
