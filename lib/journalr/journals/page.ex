@@ -23,5 +23,13 @@ defmodule Journalr.Journals.Page do
     |> cast_assoc(:journal)
     |> cast_assoc(:pages_tags)
     |> validate_required([:content])
+    |> calculate_offset(attrs)
   end
+
+  defp calculate_offset(changeset, %{"tz_offset" => tz_offset}) when not is_nil(tz_offset) do
+    {offset, _} = Integer.parse(tz_offset)
+    time = NaiveDateTime.add(changeset.changes.inserted_at, offset * 60)
+    put_change(changeset, :inserted_at, time)
+  end
+  defp calculate_offset(changeset, _), do: changeset
 end

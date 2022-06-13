@@ -97,8 +97,9 @@ defmodule JournalrWeb.LiveHelpers do
   end
 
   def format_datetime(datetime, tz_offset) do
-    hour = convert_hour(datetime.hour - div(tz_offset, 60))
-    minute = pad_minute(datetime.minute - rem(tz_offset, 60))
+    datetime = NaiveDateTime.add(datetime, tz_offset * -60)
+    hour = convert_hour(datetime.hour)
+    minute = pad_minute(datetime.minute)
     "#{@days[datetime.month]} #{inflex(datetime.day)}, #{datetime.year} #{hour}:#{minute}#{am_or_pm(datetime.hour)}"
   end
 

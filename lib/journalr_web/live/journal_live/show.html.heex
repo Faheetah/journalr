@@ -30,6 +30,7 @@
       page={@page}
       journal={@journal}
       return_to={Routes.journal_show_path(@socket, :show, @journal)}
+      tz_offset={@tz_offset}
     />
 
     <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll" phx-update="append">

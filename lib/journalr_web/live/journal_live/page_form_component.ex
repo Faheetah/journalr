@@ -9,10 +9,12 @@ defmodule JournalrWeb.JournalLive.PageFormComponent do
   def update(%{page: page} = assigns, socket) do
     changeset = Journals.change_page(page)
 
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign(:changeset, changeset)}
+    {
+      :ok,
+      socket
+      |> assign(assigns)
+      |> assign(:changeset, changeset)
+    }
   end
 
   @impl true
