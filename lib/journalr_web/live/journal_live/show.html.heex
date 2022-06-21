@@ -44,14 +44,15 @@
     <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll" phx-update="append">
       <%= if @tz_offset do %>
         <%= for page <- @pages do %>
-            <.live_component
-              module={JournalrWeb.JournalLive.PageComponent}
-              id={"page-#{page.id}"}
-              socket={@socket}
-              page={page}
-              show_journal={false}
-              tz_offset={@tz_offset}
-            />
+          <.live_component
+            module={JournalrWeb.JournalLive.PageComponent}
+            id={"page-#{page.id}"}
+            socket={@socket}
+            page={page}
+            show_journal={false}
+            tz_offset={@tz_offset}
+            filter={@filter}
+          />
         <% end %>
       <% end %>
     </div>

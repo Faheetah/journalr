@@ -1,5 +1,5 @@
 <div id={"page-#{@page.id}"}>
-  <%= if @page.__meta__.state != :deleted do %>
+  <%= unless @page.__meta__.state == :deleted || (@filter && @page.color != @filter) do %>
     <div class="text-neutral-500 md:flex">
       <div class="grow">
         <%= format_datetime(@page.inserted_at, @tz_offset) %>
