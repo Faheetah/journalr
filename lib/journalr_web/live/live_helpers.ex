@@ -73,19 +73,19 @@ defmodule JournalrWeb.LiveHelpers do
     color = String.to_existing_atom(color)
 
     dark_colors = [
-      white: "fill-neutral-400 stroke-neutral-400",
-      red: "fill-red-400 stroke-red-400",
-      yellow: "fill-yellow-400 stroke-yellow-400",
-      green: "fill-green-400 stroke-green-400",
-      blue: "fill-blue-400 stroke-blue-400"
+      white: "fill-neutral-400 stroke-neutral-400 hover:fill-neutral-200",
+      red: "fill-red-400 stroke-red-400 hover:fill-red-200",
+      yellow: "fill-yellow-400 stroke-yellow-400 hover:fill-yellow-200",
+      green: "fill-green-400 stroke-green-400 hover:fill-green-200",
+      blue: "fill-blue-400 stroke-blue-400 hover:fill-blue-200"
     ]
 
     [
-      white: "fill-neutral-50 stroke-neutral-400 hover:fill-neutral-400 hover:stroke-neutral-400",
-      red: "fill-red-50 stroke-red-400 hover:fill-red-400 hover:stroke-red-400",
-      yellow: "fill-yellow-50 stroke-yellow-400 hover:fill-yellow-400 hover:stroke-yellow-400",
-      green: "fill-green-50 stroke-green-400 hover:fill-green-400 hover:stroke-green-400",
-      blue: "fill-blue-50 stroke-blue-400 hover:fill-blue-400 hover:stroke-blue-400"
+      white: "fill-neutral-50 stroke-neutral-400 hover:fill-neutral-400",
+      red: "fill-red-50 stroke-red-400 hover:fill-red-400",
+      yellow: "fill-yellow-50 stroke-yellow-400 hover:fill-yellow-400",
+      green: "fill-green-50 stroke-green-400 hover:fill-green-400",
+      blue: "fill-blue-50 stroke-blue-400 hover:fill-blue-400"
     ]
     |> Keyword.replace!(color, dark_colors[color])
   end

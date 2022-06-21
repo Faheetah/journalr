@@ -90,9 +90,9 @@ defmodule JournalrWeb.JournalLive.Show do
   end
 
   def handle_event("highlight", %{"id" => id, "color" => color}, socket) do
-    {:ok, page} =
-      Journals.get_page!(id)
-      |> Journals.update_page(%{"color" => color})
+    page = Journals.get_page!(id)
+    new_color = get_highlight(page.color, color)
+    {:ok, page} = Journals.update_page(page, %{"color" => new_color})
 
     {:noreply, assign(socket, :pages, [page])}
   end
@@ -106,6 +106,9 @@ defmodule JournalrWeb.JournalLive.Show do
 
     {:noreply, socket}
   end
+
+  defp get_highlight(original, new) when original == new, do: "white"
+  defp get_highlight(_, new), do: new
 
   defp load_pages(journal, offset) do
     Journals.list_pages_for_journal(journal, offset)
