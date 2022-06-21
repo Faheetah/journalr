@@ -91,17 +91,12 @@ defmodule JournalrWeb.JournalLive.Show do
   end
 
   def handle_event("filter-highlight", %{"color" => color}, socket) do
-    if socket.assigns.filter == color do
-      {
-        :noreply,
-        push_redirect(socket, to: Routes.journal_show_path(socket, :show, socket.assigns.journal.id))
-      }
-    else
-      {
-        :noreply,
-        push_redirect(socket, to: Routes.journal_show_path(socket, :show, socket.assigns.journal.id, filter: color))
-      }
-    end
+    params = socket.assigns.filter == color && [] || [filter: color]
+
+    {
+      :noreply,
+      push_redirect(socket, to: Routes.journal_show_path(socket, :show, socket.assigns.journal.id, params))
+    }
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
