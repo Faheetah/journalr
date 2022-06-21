@@ -107,6 +107,23 @@ defmodule JournalrWeb.JournalLive.Show do
     {:noreply, socket}
   end
 
+  def handle_event("delete-journal", %{"id" => id}, socket) do
+    journal = Journals.get_journal!(id)
+    {:ok, _} = Journals.delete_journal(journal)
+
+    user = socket.assigns.current_user
+    if user.current_journal != id do
+      Journals.update_user_current_journal(user, nil)
+    end
+
+    {
+      :noreply,
+      socket
+      |> assign(:journals, Journals.list_journals())
+      |> push_redirect(to: "/")
+    }
+  end
+
   defp get_highlight(original, new) when original == new, do: "white"
   defp get_highlight(_, new), do: new
 

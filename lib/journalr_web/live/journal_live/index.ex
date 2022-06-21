@@ -56,7 +56,6 @@ defmodule JournalrWeb.JournalLive.Index do
     end
   end
 
-
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     journal = Journals.get_journal!(id)

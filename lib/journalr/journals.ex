@@ -45,9 +45,12 @@ defmodule Journalr.Journals do
   def get_journal!(id), do: Repo.get!(Journal, id)
   def get_journal(id), do: Repo.get(Journal, id)
 
+  # def get_current_journal(%User{:current_journal => nil}), do: nil
   def get_current_journal(%User{:current_journal => id}) do
-    with {:ok, journal} <- get_journal(id) do
-      journal
+    if id != nil do
+      with {:ok, journal} <- get_journal(id) do
+        journal
+      end
     end
   end
 
