@@ -23,6 +23,7 @@ defmodule Journalr.Journals.Page do
     |> cast_assoc(:journal)
     |> cast_assoc(:pages_tags)
     |> validate_required([:content])
+    |> validate_inclusion(:color, ~w[white red yellow green blue])
     |> calculate_offset(attrs)
   end
 
