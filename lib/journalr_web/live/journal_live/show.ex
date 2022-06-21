@@ -5,7 +5,6 @@ defmodule JournalrWeb.JournalLive.Show do
 
   alias Journalr.Accounts
   alias Journalr.Journals
-  alias Journalr.Journals.Page
 
   on_mount JournalrWeb.JournalLive.TimezoneHook
 
@@ -51,7 +50,6 @@ defmodule JournalrWeb.JournalLive.Show do
       |> assign(:page_title, "Journalr: #{journal.name}")
       |> assign(:journal, journal)
       |> assign(:pages, load_pages(journal, socket.assigns.offset, socket.assigns.filter))
-      |> assign(:page, %Page{})
     }
   end
 
@@ -59,10 +57,10 @@ defmodule JournalrWeb.JournalLive.Show do
   def handle_info({:page_created, page}, socket) when page.journal_id == socket.assigns.journal.id do
     {
       :noreply,
-      assign(socket, :pages, [page])
+      socket
+      |> assign(:pages, [page])
     }
   end
-
   def handle_info({:page_created, _page}, socket), do: socket
 
   @impl true
@@ -134,7 +132,7 @@ defmodule JournalrWeb.JournalLive.Show do
   defp get_highlight(original, new) when original == new, do: "white"
   defp get_highlight(_, new), do: new
 
-  defp load_pages(journal, offset, filter \\ nil) do
+  defp load_pages(journal, offset, filter) do
     Journals.list_pages_for_journal(journal, offset, filter)
   end
 end

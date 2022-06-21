@@ -10,7 +10,6 @@ defmodule JournalrWeb.JournalLive.SidebarComponent do
       :ok,
       socket
       |> assign(:journals, Journals.list_journals_for_user(user))
-      |> assign(:test, "test")
     }
   end
 

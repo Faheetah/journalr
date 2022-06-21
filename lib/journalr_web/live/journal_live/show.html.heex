@@ -34,14 +34,13 @@
     <.live_component
       module={JournalrWeb.JournalLive.PageFormComponent}
       id={:new}
-      action={@live_action}
-      page={@page}
+      action={:create}
       journal={@journal}
       return_to={Routes.journal_show_path(@socket, :show, @journal)}
       tz_offset={@tz_offset}
     />
 
-    <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll" phx-update="append">
+    <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll" phx-update="prepend">
       <%= if @tz_offset do %>
         <%= for page <- @pages do %>
           <.live_component
