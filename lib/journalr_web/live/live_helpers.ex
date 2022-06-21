@@ -69,23 +69,21 @@ defmodule JournalrWeb.LiveHelpers do
   def style_for_color("green"), do: "bg-green-50"
 
   # tailwind JIT is incredibly fussy about dynamically generating CSS classes
-  @colors ~w[white red yellow green blue]
+  @dark_colors [
+    white: "fill-neutral-400 stroke-neutral-400 hover:fill-neutral-200",
+    red: "fill-red-400 stroke-red-400 hover:fill-red-200",
+    yellow: "fill-yellow-400 stroke-yellow-400 hover:fill-yellow-200",
+    green: "fill-green-400 stroke-green-400 hover:fill-green-200",
+    blue: "fill-blue-400 stroke-blue-400 hover:fill-blue-200"
+  ]
 
-  @dark_colors Enum.map(@colors, fn color ->
-    if color == "white" do
-      {String.to_atom(color), "fill-neutral-400 stroke-neutral-400 hover:fill-neutral-200"}
-    else
-      {String.to_atom(color), "fill-#{color}-400 stroke-#{color}-400 hover:fill-#{color}-200"}
-    end
-  end)
-
-  @light_colors Enum.map(@colors, fn color ->
-    if color == "white" do
-      {String.to_atom(color), "fill-neutral-50 stroke-neutral-400 hover:fill-neutral-400"}
-    else
-      {String.to_atom(color), "fill-#{color}-50 stroke-#{color}-400 hover:fill-#{color}-400"}
-    end
-  end)
+  @light_colors [
+    white: "fill-neutral-50 stroke-neutral-400 hover:fill-neutral-400",
+    red: "fill-red-50 stroke-red-400 hover:fill-red-400",
+    yellow: "fill-yellow-50 stroke-yellow-400 hover:fill-yellow-400",
+    green: "fill-green-50 stroke-green-400 hover:fill-green-400",
+    blue: "fill-blue-50 stroke-blue-400 hover:fill-blue-400",
+  ]
 
   def get_styles(nil), do: @light_colors
   def get_styles(color) do
