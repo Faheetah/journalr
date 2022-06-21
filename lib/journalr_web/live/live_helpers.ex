@@ -72,13 +72,22 @@ defmodule JournalrWeb.LiveHelpers do
   @colors ~w[white red yellow green blue]
 
   @dark_colors Enum.map(@colors, fn color ->
-    {String.to_atom(color), "fill-#{color}-400 stroke-#{color}-400 hover:fill-#{color}-200"}
+    if color == "white" do
+      {String.to_atom(color), "fill-neutral-400 stroke-neutral-400 hover:fill-neutral-200"}
+    else
+      {String.to_atom(color), "fill-#{color}-400 stroke-#{color}-400 hover:fill-#{color}-200"}
+    end
   end)
 
   @light_colors Enum.map(@colors, fn color ->
-    {String.to_atom(color), "fill-#{color}-50 stroke-#{color}-400 hover:fill-#{color}-400"}
+    if color == "white" do
+      {String.to_atom(color), "fill-neutral-50 stroke-neutral-400 hover:fill-neutral-400"}
+    else
+      {String.to_atom(color), "fill-#{color}-50 stroke-#{color}-400 hover:fill-#{color}-400"}
+    end
   end)
 
+  def get_styles(nil), do: @light_colors
   def get_styles(color) do
     color = String.to_existing_atom(color)
     Keyword.replace!(@light_colors, color, @dark_colors[color])

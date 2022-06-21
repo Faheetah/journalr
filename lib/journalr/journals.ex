@@ -140,13 +140,27 @@ defmodule Journalr.Journals do
   end
 
   @per_page 20
-  # @todo implement offset and infinite scrolling
-  def list_pages_for_journal(journal, page \\ 0) do
+  def list_pages_for_journal(journal, page) do
     offset = page * @per_page
 
     Repo.all(
       from p in Page,
       where: [journal_id: ^journal.id],
+      limit: @per_page,
+      offset: ^offset,
+      order_by: [desc: p.inserted_at],
+      order_by: [desc: p.id]
+    )
+  end
+
+  def list_pages_for_journal(journal, page, nil), do: list_pages_for_journal(journal, page)
+  def list_pages_for_journal(journal, page, color) do
+    offset = page * @per_page
+
+    Repo.all(
+      from p in Page,
+      where: [journal_id: ^journal.id],
+      where: [color: ^color],
       limit: @per_page,
       offset: ^offset,
       order_by: [desc: p.inserted_at],
@@ -172,6 +186,7 @@ defmodule Journalr.Journals do
     )
     |> Enum.dedup_by(fn page -> page.id end)
   end
+
 
   @doc """
   Gets a single page.
