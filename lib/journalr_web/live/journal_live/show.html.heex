@@ -22,13 +22,15 @@
     <div>
       <%= live_patch @journal.name, to: Routes.journal_show_path(@socket, :edit, @journal), class: "text-4xl" %>
 
-      <%= for {color, style} <- get_styles(@filter) do %>
-        <%= link to: "#", phx_click: "filter-highlight", phx_value_color: color do %>
-          <svg class={"inline w-6 h-6 #{style}"} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
-          </svg>
+      <div class="inline ml-2 space-x-2">
+        <%= for {color, style} <- get_styles(@filter) do %>
+          <%= link to: "#", phx_click: "filter-highlight", phx_value_color: color do %>
+            <svg class={"inline w-6 h-6 #{style}"} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
+            </svg>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
 
     <.live_component
