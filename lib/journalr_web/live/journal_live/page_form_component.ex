@@ -12,7 +12,7 @@ defmodule JournalrWeb.JournalLive.PageFormComponent do
       :ok,
       socket
       |> assign(assigns)
-      |> assign(:changeset, Journals.change_page(%Page{}, %{inserted_at: NaiveDateTime.local_now()}))
+      |> assign(:changeset, Journals.change_page(%Page{}))
     }
   end
 
@@ -21,11 +21,7 @@ defmodule JournalrWeb.JournalLive.PageFormComponent do
     case Journals.create_page(page_params) do
       {:ok, page} ->
         Phoenix.PubSub.broadcast(Journalr.PubSub, "pages-#{page.journal_id}", {:page_created, page})
-        {
-          :noreply,
-          socket
-          |> assign(:changeset, Journals.change_page(%Page{}, %{inserted_at: NaiveDateTime.local_now()}))
-        }
+        {:noreply, push_redirect(socket, to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = _changeset} ->
         {:noreply, socket |> put_flash(:error, "Could not save page")}
