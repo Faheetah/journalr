@@ -16,7 +16,7 @@
       <div class="flex-1">
         <%= if @tz_offset do %>
           <%= hidden_input f, :tz_offset, value: @tz_offset %>
-          <%= datetime_select f, :inserted_at, year: [options: 2022..1900], default: NaiveDateTime.add(NaiveDateTime.utc_now(), @tz_offset * -60), builder: fn b -> %>
+          <%= datetime_select f, :inserted_at, year: [options: 2023..1900], default: NaiveDateTime.add(NaiveDateTime.utc_now(), @tz_offset * -60), builder: fn b -> %>
             <%= b.(:month, class:  "p-1 border-b-2 border-neutral-400") %>
             <%= b.(:day, class:    "p-1 border-b-2 border-neutral-400") %>
             <span class="font-bold">,</span>

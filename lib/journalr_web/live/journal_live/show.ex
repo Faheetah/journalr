@@ -29,7 +29,8 @@ defmodule JournalrWeb.JournalLive.Show do
         |> assign(:offset, 0)
         |> assign(:current_user, user)
         |> assign(:filter, Map.get(params, "filter"))
-        |> assign(:tz_offset, nil)
+        |> assign(:tz_offset, nil),
+        temporary_assigns: [posts: []]
       }
     else
       {

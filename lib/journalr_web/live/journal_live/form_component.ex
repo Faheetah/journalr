@@ -35,7 +35,6 @@ defmodule JournalrWeb.JournalLive.FormComponent do
       {:ok, _journal} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Journal updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -49,7 +48,6 @@ defmodule JournalrWeb.JournalLive.FormComponent do
         {
           :noreply,
           socket
-          |> put_flash(:info, "Journal created successfully")
           |> push_redirect(to: Routes.journal_show_path(socket, :show, journal))
         }
 
