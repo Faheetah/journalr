@@ -23,6 +23,7 @@
       <%= live_patch @journal.name, to: Routes.journal_show_path(@socket, :edit, @journal), class: "text-4xl" %>
 
       <div class="inline ml-2 space-x-2">
+        Filter:
         <%= for {color, style} <- get_styles(@filter) do %>
           <%= link to: "#", phx_click: "filter-highlight", phx_value_color: color do %>
             <svg class={"inline w-6 h-6 #{style}"} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +43,7 @@
       tz_offset={@tz_offset}
     />
 
-    <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll" phx-update="prepend">
+    <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll" phx-update="append">
       <%= if @tz_offset do %>
         <%= for page <- @pages do %>
           <.live_component

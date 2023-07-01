@@ -21,6 +21,6 @@ defmodule Journalr.Journals.Journal do
     journal
     |> cast(attrs, [:name, :public, :user_id])
     |> cast_assoc(:user)
-    |> validate_required([:name, :public])
+    |> validate_required([:name, :public, :user_id])
   end
 end
