@@ -1,4 +1,4 @@
-<div>
+<div class="bg-neutral-200 p-4">
   <.form
     let={f}
     for={@changeset}
@@ -28,7 +28,7 @@
         <% end %>
       </div>
 
-      <%= submit "Post", phx_disable_with: "Saving...", class: "px-8 h-10 w-full lg:w-auto border bg-neutral-100 text-xl" %>
+      <%= submit "Post", phx_disable_with: "Saving...", class: "px-8 h-10 w-full lg:w-auto border bg-neutral-500 text-neutral-100 text-xl" %>
     </div>
   </.form>
 </div>

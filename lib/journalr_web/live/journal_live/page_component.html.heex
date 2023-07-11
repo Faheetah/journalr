@@ -1,18 +1,18 @@
 <div id={"page-#{@page.id}"}>
   <%= unless @page.__meta__.state == :deleted || (@filter && @page.color != @filter) do %>
-    <div class="text-neutral-500 md:flex">
-      <div class="grow">
+    <div class={"text-lg py-2 px-4 border-8 #{style_for_color(@page.color)}"}>
+      <div class="font-bold mb-4 text-2xl">
         <%= format_datetime(@page.inserted_at, @tz_offset) %>
         <%= if @show_journal do %>
             in <%= link @page.journal.name, to: "/journals/#{@page.journal.id}", class: "font-bold" %>
         <% end %>
       </div>
-      <div class="text-lg md:inline space-x-2">
-        <%= link to: "#", phx_click: "delete", phx_value_id: @page.id, data: [confirm: "Are you sure?"] do %>
-          <svg class="inline w-6 h-6 fill-neutral-300 stroke-neutral-400 hover:fill-neutral-400 hover:stroke-neutral-800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-          </svg>
-        <% end %>
+
+      <%= format_page(@page.content) %>
+    </div>
+    <div class="md:flex">
+      <div class="grow" />
+      <div class={"text-lg md:inline space-x-2 px-2 border-4 border-x-8 border-t-0 #{style_for_color(@page.color)}"}>
         <%= for {color, style} <- get_styles(@page.color) do %>
           <%= if color != :white do %>
             <%= link to: "#", phx_click: "highlight", phx_value_id: @page.id, phx_value_color: color do %>
@@ -22,11 +22,14 @@
             <% end %>
           <% end %>
         <% end %>
+
+        <%= link to: "#", phx_click: "delete", phx_value_id: @page.id, data: [confirm: "Are you sure?"] do %>
+          <svg class="inline w-6 h-6 fill-neutral-300 stroke-neutral-400 hover:fill-neutral-400 hover:stroke-neutral-800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+        <% end %>
       </div>
     </div>
 
-    <div class={"text-lg px-4 #{style_for_color(@page.color)}"}>
-      <%= format_page(@page.content) %>
-    </div>
   <% end %>
 </div>

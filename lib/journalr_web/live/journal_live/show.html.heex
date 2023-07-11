@@ -11,14 +11,13 @@
       />
     </.modal>
   <% end %>
-
   <.live_component
     module={JournalrWeb.JournalLive.SidebarComponent}
     id={:sidebar}
     user={@current_user}
   />
 
-  <div class="col-span-8 w-full space-y-8">
+  <div class="col-span-8 w-full space-y-12">
     <div>
       <%= live_patch @journal.name, to: Routes.journal_show_path(@socket, :edit, @journal), class: "text-4xl" %>
 
@@ -43,7 +42,7 @@
       tz_offset={@tz_offset}
     />
 
-    <div id="pages" data-offset={@offset} class="space-y-8" phx-hook="InfiniteScroll" phx-update="append">
+    <div id="pages" data-offset={@offset} class="space-y-12" phx-hook="InfiniteScroll" phx-update="append">
       <%= if @tz_offset do %>
         <%= for page <- @pages do %>
           <.live_component
