@@ -12,7 +12,6 @@ defmodule Journalr.Accounts.UserToken do
   @reset_password_validity_in_days 1
   @confirm_validity_in_days 7
   @change_email_validity_in_days 7
-  @session_validity_in_days 60
 
   schema "users_tokens" do
     field :token, :binary
@@ -59,7 +58,6 @@ defmodule Journalr.Accounts.UserToken do
     query =
       from token in token_and_context_query(token, "session"),
         join: user in assoc(token, :user),
-        where: token.inserted_at > ago(@session_validity_in_days, "day"),
         select: user
 
     {:ok, query}
