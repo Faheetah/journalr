@@ -1,18 +1,20 @@
 <div id={"page-#{@page.id}"}>
   <%= unless @page.__meta__.state == :deleted || (@filter && @page.color != @filter) do %>
-    <div class={"text-lg py-2 px-4 border-8 #{style_for_color(@page.color)}"}>
-      <div class="font-bold mb-4 text-2xl">
+    <div class={"text-lg py-2 border-2 #{style_for_color(@page.color)}"}>
+      <div class={"font-bold px-4 mb-0 border-0 text-1xl #{style_for_line(@page.color)}"}>
         <%= format_datetime(@page.inserted_at, @tz_offset) %>
         <%= if @show_journal do %>
             in <%= link @page.journal.name, to: "/journals/#{@page.journal.id}", class: "font-bold" %>
         <% end %>
       </div>
 
-      <%= format_page(@page.content) %>
+      <div class="px-4">
+        <%= format_page(@page.content) %>
+      </div>
     </div>
     <div class="md:flex">
       <div class="grow" />
-      <div class={"text-lg md:inline space-x-2 px-2 border-4 border-x-8 border-t-0 #{style_for_color(@page.color)}"}>
+      <div class={"text-lg md:inline space-x-2 px-2 border-1 border-x-1 border-t-0 #{style_for_color(@page.color)}"}>
         <%= for {color, style} <- get_styles(@page.color) do %>
           <%= if color != :white do %>
             <%= link to: "#", phx_click: "highlight", phx_value_id: @page.id, phx_value_color: color do %>

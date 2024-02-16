@@ -1,0 +1,45 @@
+<div class="lg:grid gap-12 lg:grid-cols-12 lg:w-2/3 p-4 m-auto" id="offset" phx-hook="TzOffset">
+  <div class="col-span-8 w-full space-y-12">
+    <div>
+      <%= live_patch @journal.name, to: Routes.journal_show_path(@socket, :edit, @journal), class: "text-4xl" %>
+
+      <div class="inline ml-2 space-x-2">
+        Filter:
+        <%= for {color, style} <- get_styles(@filter) do %>
+          <%= link to: "#", phx_click: "filter-highlight", phx_value_color: color do %>
+            <svg class={"inline w-6 h-6 #{style}"} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
+            </svg>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <.live_component
+      module={JournalrWeb.JournalLive.PageFormComponent}
+      id={:new}
+      action={:create}
+      journal={@journal}
+      return_to={Routes.journal_show_path(@socket, :show, @journal)}
+      tz_offset={@tz_offset}
+    />
+
+    <div id="pages" data-offset={@offset} class="space-y-12" phx-hook="InfiniteScroll" phx-update="append">
+      <%= if @tz_offset do %>
+        <%= for page <- @pages do %>
+          <.live_component
+            module={JournalrWeb.JournalLive.PageComponent}
+            id={"page-#{page.id}"}
+            socket={@socket}
+            page={page}
+            show_journal={false}
+            tz_offset={@tz_offset}
+            filter={@filter}
+          />
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-span-2" />
+</div>

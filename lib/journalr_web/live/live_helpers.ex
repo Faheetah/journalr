@@ -62,15 +62,21 @@ defmodule JournalrWeb.LiveHelpers do
     |> JS.hide(to: "#modal-content", transition: "fade-out-scale")
   end
 
-  def style_for_color("white"), do: "bg-neutral-50"
-  def style_for_color("red"), do: "bg-red-50"
-  def style_for_color("yellow"), do: "bg-yellow-50"
-  def style_for_color("blue"), do: "bg-blue-50"
-  def style_for_color("green"), do: "bg-green-50"
+  def style_for_color("white"), do: "bg-stone-50 border border-stone-200 text-stone-800 divide-stone-100"
+  def style_for_color("red"), do: "bg-red-50 border border-red-100 text-red-800 divide-red-100"
+  def style_for_color("yellow"), do: "bg-yellow-50 border border-yellow-100 text-yellow-900 divide-yellow-200"
+  def style_for_color("blue"), do: "bg-blue-50 border border-blue-100 text-blue-800 divide-blue-100"
+  def style_for_color("green"), do: "bg-green-50 border border-green-100 text-green-800 divide-green-200"
+
+  def style_for_line("white"), do: "border-stone-200"
+  def style_for_line("red"), do: "border-red-100"
+  def style_for_line("yellow"), do: "border-yellow-100"
+  def style_for_line("blue"), do: "border-blue-100"
+  def style_for_line("green"), do: "border-green-100"
 
   # tailwind JIT is incredibly fussy about dynamically generating CSS classes
   @dark_colors [
-    white: "fill-neutral-400 stroke-neutral-400 hover:fill-neutral-200",
+    white: "fill-stone-400 stroke-stone-400 hover:fill-stone-200",
     red: "fill-red-400 stroke-red-400 hover:fill-red-200",
     yellow: "fill-yellow-400 stroke-yellow-400 hover:fill-yellow-200",
     green: "fill-green-400 stroke-green-400 hover:fill-green-200",
@@ -78,7 +84,7 @@ defmodule JournalrWeb.LiveHelpers do
   ]
 
   @light_colors [
-    white: "fill-neutral-50 stroke-neutral-400 hover:fill-neutral-400",
+    white: "fill-stone-50 stroke-stone-400 hover:fill-stone-400",
     red: "fill-red-50 stroke-red-400 hover:fill-red-400",
     yellow: "fill-yellow-50 stroke-yellow-400 hover:fill-yellow-400",
     green: "fill-green-50 stroke-green-400 hover:fill-green-400",
