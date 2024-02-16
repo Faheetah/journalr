@@ -1,3 +1,4 @@
 #!/bin/sh
 cd -P -- "$(dirname -- "$0")"
+./journalr eval Journalr.Release.migrate
 PHX_SERVER=true exec ./journalr start
