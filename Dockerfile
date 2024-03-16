@@ -57,6 +57,10 @@ RUN mix deps.compile
 COPY lib lib
 COPY priv priv
 
+# Compile the release
+
+RUN mix compile
+
 # note: if your project uses a tool like https://purgecss.com/,
 # which customizes asset compilation based on what it finds in
 # your Elixir templates, you will need to move the asset compilation
@@ -65,14 +69,8 @@ COPY assets assets
 
 # compile assets
 RUN mix phx.digest.clean --all
-
-RUN which tailwindcss
-
+RUN mix esbuild default
 RUN mix assets.deploy
-
-# Compile the release
-
-RUN mix compile
 
 # Changes to config/runtime.exs don't require recompiling the code
 COPY config/runtime.exs config/
