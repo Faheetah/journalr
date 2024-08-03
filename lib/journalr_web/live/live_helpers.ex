@@ -116,7 +116,7 @@ defmodule JournalrWeb.LiveHelpers do
 
   defp pad_minute(minute), do: String.pad_leading(Integer.to_string(minute), 2, "0")
 
-  defp am_or_pm(hour) when hour > 12, do: "PM"
+  defp am_or_pm(hour) when hour > 11, do: "PM"
   defp am_or_pm(_), do: "AM"
 
   defp inflex(1), do: "1st"
