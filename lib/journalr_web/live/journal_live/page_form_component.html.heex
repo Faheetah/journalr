@@ -16,7 +16,7 @@
     <div class="text-sm lg:text-lg lg:flex space-y-2 lg:space-y-0">
       <div class="flex-1">
         <%= if @tz_offset do %>
-          <input class="p-1 border border-neutral-400" name="page[inserted_at]" id="page-inserted-at" type="datetime-local" phx-value-tz_offset={@tz_offset} value={NaiveDateTime.add(NaiveDateTime.utc_now(), @tz_offset * -60)} />
+          <input class="p-1 border border-neutral-400" name="page[inserted_at]" id="page-inserted-at" type="datetime-local" phx-value-tz_offset={@tz_offset} />
         <% end %>
       </div>
 
