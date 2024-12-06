@@ -18,7 +18,9 @@ defmodule JournalrWeb.JournalLive.PageFormComponent do
 
   @impl true
   def handle_event("save", %{"page" => page_params}, socket) do
-    case Journals.create_page(page_params) do
+    {:ok, inserted_at} = NaiveDateTime.from_iso8601(page_params["inserted_at"] <> ":00.00")
+
+    case Journals.create_page(Map.put(page_params, "inserted_at", inserted_at)) do
       {:ok, page} ->
         Phoenix.PubSub.broadcast(Journalr.PubSub, "pages-#{page.journal_id}", {:page_created, page})
         {:noreply, push_redirect(socket, to: socket.assigns.return_to)}

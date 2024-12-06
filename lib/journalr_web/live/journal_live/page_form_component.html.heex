@@ -7,6 +7,7 @@
     phx-submit="save">
 
     <%= hidden_input f, :journal_id, value: @journal.id %>
+    <%= hidden_input f, :tz_offset, value: @tz_offset %>
 
     <div class="mt-2">
     <%= textarea f, :content, placeholder: "Write something", class: "w-full h-48 p-2 border border-neutral-400" %>
@@ -15,16 +16,7 @@
     <div class="text-sm lg:text-lg lg:flex space-y-2 lg:space-y-0">
       <div class="flex-1">
         <%= if @tz_offset do %>
-          <%= hidden_input f, :tz_offset, value: @tz_offset %>
-          <%= datetime_select f, :inserted_at, year: [options: 2024..1900], default: NaiveDateTime.add(NaiveDateTime.utc_now(), @tz_offset * -60), builder: fn b -> %>
-            <%= b.(:month, class:  "p-1 border-b-2 border-neutral-400") %>
-            <%= b.(:day, class:    "p-1 border-b-2 border-neutral-400") %>
-            <span class="font-bold">,</span>
-            <%= b.(:year, class:   "p-1 border-b-2 border-neutral-400") %>
-            <%= b.(:hour, class:   "p-1 border-b-2 border-neutral-400") %>
-            <span class="font-bold">:</span>
-            <%= b.(:minute, class: "p-1 border-b-2 border-neutral-400") %>
-          <% end %>
+          <input class="p-1 border border-neutral-400" name="page[inserted_at]" id="page-inserted-at" type="datetime-local" phx-value-tz_offset={@tz_offset} value={NaiveDateTime.add(NaiveDateTime.utc_now(), @tz_offset * -60)} />
         <% end %>
       </div>
 
